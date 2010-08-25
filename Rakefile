@@ -26,18 +26,10 @@ rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
 end
 
-# We want to test ActiveRecord 3 against RSpec 2.x, and
-# prior versions of AR against RSpec 1.x.  The task
-# definitions are different, and in order to allow ginger
-# to invoke a single task (:spec_for_ginger) that runs the
-# specs against the right version of RSpec, we dynamically
-# define the spec task with this method.
-def define_specs_task
-    # rspec 2
-    require "rspec/core/rake_task"
-    RSpec::Core::RakeTask.new(:specs) do |spec|
-      spec.pattern = "spec/*_spec.rb"
-    end
+# rspec 2
+require "rspec/core/rake_task"
+RSpec::Core::RakeTask.new(:specs) do |spec|
+  spec.pattern = "spec/*_spec.rb"
 end
 
 desc "Run the specs"
@@ -49,7 +41,6 @@ end
 task :spec_for_ginger do
   $LOAD_PATH << File.join(*%w[vendor ginger lib])
   require 'ginger'
-  define_specs_task
   Rake::Task[:specs].invoke
 end
 
