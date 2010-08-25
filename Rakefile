@@ -28,20 +28,8 @@ end
 
 # rspec 2
 require "rspec/core/rake_task"
-RSpec::Core::RakeTask.new(:specs) do |spec|
+RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = "spec/*_spec.rb"
-end
-
-desc "Run the specs"
-task :spec do
-  define_specs_task
-  Rake::Task[:specs].invoke
-end
-
-task :spec_for_ginger do
-  $LOAD_PATH << File.join(*%w[vendor ginger lib])
-  require 'ginger'
-  Rake::Task[:specs].invoke
 end
 
 task :spec => :check_dependencies if defined?(Jeweler)
@@ -50,7 +38,7 @@ desc 'Run ginger tests'
 task :ginger do
   $LOAD_PATH << File.join(*%w[vendor ginger lib])
   ARGV.clear
-  ARGV << 'spec_for_ginger'
+  ARGV << 'spec'
   load File.join(*%w[vendor ginger bin ginger])
 end
 
