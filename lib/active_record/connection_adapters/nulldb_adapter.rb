@@ -238,7 +238,7 @@ class ActiveRecord::ConnectionAdapters::NullDBAdapter <
   end
 
   def primary_key(table_name)
-    columns(table_name).detect { |col| col.sql_type == :primary_key }.name
+    columns(table_name).detect { |col| col.sql_type == :primary_key }.try(:name)
   end
 
   protected
